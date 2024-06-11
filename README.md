@@ -79,7 +79,7 @@ gensim==4.3.0
         dataset.py：数据集对象
         trainer.py：训练代码
 ```
-### 3.1 建模思路
+### 3.2 建模思路
 
 利用大模型判断特定的文本（即“目标论文”）是否属于一个给定的作者文本集合（即“论文集合”）。
 
@@ -88,9 +88,9 @@ gensim==4.3.0
 
 ![instruction.png](resources/instruction.png)
 
-### 3.2 实验总结
+### 3.3 实验总结
 
-通过Lora微调ChatGLM、LLama3-7B、Mistral-7B模型，然后得到对应结果文件进行融合
+通过Lora微调ChatGLM3、GLM4-Chat、Mistral-7B模型，然后得到对应结果文件进行融合
 
 ## 4 团队介绍
 - **asir** B站大模型团队 算法工程师
