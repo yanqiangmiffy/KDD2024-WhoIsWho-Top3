@@ -47,6 +47,8 @@ gensim==4.3.0
 ### 2.2 建模思路
 构建作者画像以及与paper的差异性特征，主要通过聚合文本来表示author，然后计算author的文本表示与每个paper的文本表示的距离特征，文本字段主要有论文的title/abstract/keywords
 
+![](resources/WhoIsWho_01.png)
+
 ### 2.3 实验总结
 - 特征重要性如下:
 
@@ -61,11 +63,35 @@ gensim==4.3.0
 
 
 ## 3 llm_codes
-
+### 3.1 文件说明
+```text
+│  .gitkeep
+│  finetune.py:微调代码
+│  infer.sh：预测脚本
+│  train.sh：训练脚本
+│
+├─configs
+│      ds_config_zero2.json：ds配置
+│
+└─utils
+        arguments.py：参数
+        collator.py：数据构建
+        dataset.py：数据集对象
+        trainer.py：训练代码
+```
 ### 3.1 建模思路
+
+利用大模型判断特定的文本（即“目标论文”）是否属于一个给定的作者文本集合（即“论文集合”）。
+
+- `Context Papers`为属于当前作者的论文集合
+- `Target Paper`为待测论文
+
+![instruction.png](resources/instruction.png)
 
 ### 3.2 实验总结
 
-## 团队介绍
+通过Lora微调ChatGLM、LLama3-7B、Mistral-7B模型，然后得到对应结果文件进行融合
+
+## 4 团队介绍
 - **asir** B站大模型团队 算法工程师
 - **yanqiang** 中科院计算所GoMate团队 算法工程师
