@@ -13,18 +13,15 @@ import json
 
 import numpy as np
 import pandas as pd
-from catboost import CatBoostClassifier
 from lightgbm import LGBMClassifier, log_evaluation, early_stopping
 from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import StratifiedGroupKFold
-from xgboost import XGBClassifier
 
 
 def load_data():
     train = pd.read_pickle('output/train.pkl')
     test = pd.read_pickle('output/test.pkl')
     print(train.shape, test.shape)
-
 
     train['author_year'] = train['author_id'].astype(str) + '_' + train['year'].astype(str)
     train['author_venue'] = train['author_id'].astype(str) + '_' + train['venue'].astype(str)
@@ -54,14 +51,14 @@ def load_data():
     # train=train[train['year'].isin(test['year'].unique())].reset_index(drop=True)
     # print(train.shape)
 
-    train_sta=pd.read_pickle('H:/2024-Biendata-WhoIsWho/ml_codes/train.pkl')
-    test_sta=pd.read_pickle('H:/2024-Biendata-WhoIsWho/ml_codes/test.pkl')
+    train_sta = pd.read_pickle('H:/2024-Biendata-WhoIsWho/ml_codes/train.pkl')
+    test_sta = pd.read_pickle('H:/2024-Biendata-WhoIsWho/ml_codes/test.pkl')
     feat = [i for i in train_sta.columns if
             i not in ['label', 'papers', 'title', 'name', 'authors', 'abstract', 'keywords', 'venue', 'full_text']]
-    feat=[col for col in feat if col not in train.columns]
+    feat = [col for col in feat if col not in train.columns]
 
-    train=pd.concat([train,train_sta[feat]],axis=1)
-    test=pd.concat([test,test_sta[feat]],axis=1)
+    train = pd.concat([train, train_sta[feat]], axis=1)
+    test = pd.concat([test, test_sta[feat]], axis=1)
     with open("H:/2024-Biendata-WhoIsWho/data/IND-WhoIsWho/ind_test_author_submit.json") as f:
         submission = json.load(f)
 
@@ -167,12 +164,12 @@ feature_names = [f for f in train.columns if f not in [
     'second_author', 'author_names', 'org_names', 'author_names_text',
     'org_names_text', 'top1_author', 'top2_author', 'top1_org', 'top2_org', 'venue', 'top1_keyword',
     'top2_keyword', 'author_title', 'author_keywords', 'author_abstract', 'author_author_names_text',
-    'author_org_names_text', 'keywords_list','year'
+    'author_org_names_text', 'keywords_list', 'year'
     # 'no_splite_len_author_text','author_textkw_num','diff_no_sp','overlap_score',
     # 'author_text_nunique_text','author_text_count_text','no_splite_len_author_text'
 ]]
 
-imp=pd.read_csv('output/lgb_importance_df_0.8552795230576107.csv')
+imp = pd.read_csv('output/lgb_importance_df_0.8552795230576107.csv')
 extra_cols = [col for col in feature_names if col not in imp['feature'].values.tolist()]
 print(extra_cols)
 print(len(extra_cols))
@@ -184,7 +181,7 @@ print(len(feature_names))
 feature_names = [col for col in feature_names if 'sorensen' not in col]
 
 feature_names = [col for col in feature_names if col in imp['feature'].values.tolist()[:500]] + extra_cols
-feature_names=list(set(feature_names))
+feature_names = list(set(feature_names))
 # print(feature_names)
 print('Current num of features:', len(feature_names))
 # kfold = StratifiedKFold(n_splits=5, shuffle=True, random_state=2023)
@@ -200,4 +197,3 @@ for id, names in submission.items():
         cnt += 1
 with open(f'result/{auc_score}_baseline_lgb.json', 'w', encoding='utf-8') as f:
     json.dump(submission, f, ensure_ascii=False, indent=4)
-

@@ -1,0 +1,10 @@
+torch==2.3.0
+torchaudio==2.3.0+cu121
+torchvision==0.18.0+cu121
+lightgbm==4.3.0
+pandas==1.5.3
+numpy==1.24.4
+transformers==4.40.1
+sentence-transformers==2.7.0
+scikit-learn==1.2.2
+gensim==4.3.0
