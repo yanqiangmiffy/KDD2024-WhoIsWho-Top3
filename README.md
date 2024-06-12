@@ -1,8 +1,7 @@
 # KDD2024-WhoIsWho-Top3
-KDD2024-WhoIsWho-Top3
 
-## 1 运行环境
-基础环境：
+## 1 Environment
+Base environment:
 ```text
 Linux
 Python 3.11.7
@@ -22,29 +21,29 @@ gensim==4.3.0
 ```
 
 
-## 2 lgb codes
+## 2 LGB Codes
 
-### 2.1 文件说明
+### 2.1 File Description
 ```text
-│  step0_initialize.py:初始化路径
-│  step1_load_data.py：将json数据转为csv格式
-│  step2_train_text_models.py：训练文本模型：tfidf/count/word2vec/glove
-│  step3_extract_features_emb.py:提取文本的嵌入特征
-│  step3_extract_features_stats.py：提取作者以及相关paper的统计特征
-│  step3_extract_oag_features.py：提取oag嵌入表示
-│  step3_merge_features.py：合并所有的特征生成完整的训练集和测试集
-│  step4_train_tree.py：训练lgb1
-│  step4_train_tree_imp.py：训练lgb2
-│  utils.py:通用函数
+│  step0_initialize.py: Initialize paths
+│  step1_load_data.py: Convert JSON data to CSV format
+│  step2_train_text_models.py: Train text models: tfidf/count/word2vec/glove
+│  step3_extract_features_emb.py: Extract text embedding features
+│  step3_extract_features_stats.py: Extract statistical features of authors and related papers
+│  step3_extract_oag_features.py: Extract oag embedding representation
+│  step3_merge_features.py: Merge all features to create a complete training and test dataset
+│  step4_train_tree.py: Train lgb1
+│  step4_train_tree_imp.py: Train lgb2 with imp+oag features
+│  utils.py: Utility functions
 │
-├─cogdl：oag-bert
+├─cogdl: oag-bert
 ├─output
 │  ├─step1
 │  ├─step2
 │  └─step3
 └─result
 ```
-运行步骤如下：
+Run the following steps:
 
 ```shell
 python step0_initialize.py
@@ -55,150 +54,151 @@ python step3_extract_features_stats.py
 python step3_extract_oag_features.py
 python step3_merge_features.py
 python step4_train_tree.py lgb1
-python step4_train_tree_imp.py:imp+oag特征 lgb2
+python step4_train_tree_imp.py: imp+oag features lgb2
 ```
 
-训练权重地址
+Training weights link:
 ```text
-链接：https://pan.baidu.com/s/15t9Be4LS7NK5bnRETnZjoQ?pwd=svis 
-提取码：svis 
---来自百度网盘超级会员V5的分享
+Link: https://pan.baidu.com/s/15t9Be4LS7NK5bnRETnZjoQ?pwd=svis 
+Code: svis 
+--Shared by a Baidu Netdisk Super VIP V5
 ```
 
-### 2.2 建模思路
-构建作者画像以及与paper的差异性特征，主要通过聚合文本来表示author，然后计算author的文本表示与每个paper的文本表示的距离特征，文本字段主要有论文的title/abstract/keywords
+### 2.2 Modeling Approach
+Building author profiles and features to differentiate them from papers, primarily by aggregating text to represent the author, then calculating the distance features between the author's text representation and each paper's text representation. Main text fields include the paper's title, abstract, and keywords.
 
 ![](resources/WhoIsWho_01.png)
 
-### 2.3 实验总结
-- 特征重要性如下:
+### 2.3 Experiment Summary
+- Feature importance is as follows:
 
-> 通过下面我们可以发下通过计算作者向量(尤其oag的表示)与每个paper的向量的距离特征很重要，另外每个作者的发表论文数量以及对应组织、合作第一作者出现统计特征也比较重要
+> From the below, we can see that calculating the distance features between the author vector (especially oag representation) and each paper vector is very important, as well as the count of papers published by each author and the statistical features of corresponding organizations and co-authors.
 
 ![imp](resources/imp.png)
 
-- 通过不同的Embedding表示构建的特征维度很大，最后通过特征重要性筛选，发现取重要特征top500的效果最好
-- StratifiedKFold、StratifiedGroupKFold、GroupKFold划分方式效果差不多，其中`StratifiedGroupKFold`稍微高一些
-- lgb、xgb、cat融合效果没有提升，lgb效果最优
-- 作者历史发表论文与待测论文的文本交叉特征比较重要
+- A large number of features were constructed using different Embedding representations, and after filtering by feature importance, taking the top 500 most important features proved to be the best approach.
+- StratifiedKFold, StratifiedGroupKFold, and GroupKFold partition methods had similar effects, with `StratifiedGroupKFold` being slightly higher.
+- The fusion of lgb, xgb, and cat did not improve results; lgb was the best performing model.
+- Textual cross-features between the author's historical published papers and the test paper were particularly important.
 
 
-## 3 llm_codes
-### 3.1 文件说明
+## 3 LLM Codes
+### 3.1 File Description
 ```text
 │  .gitkeep
 │  finetune_chatglm3.py
 │  finetune_glm4.py
-│  finetune_mistral.py：mistral微调代码
-│  inference_for_mistral.py：mistral预测代码
+│  finetune_mistral.py: Mistral fine-tuning code
+│  inference_for_mistral.py: Mistral inference code
 │  inference_glm.py
 │  inference_glm4.py
 │  infer_chatglm3.sh
 │  infer_glm4.sh
-│  infer_mistral.sh：mistral预测脚本
+│  infer_mistral.sh: Mistral inference script
 │  README.md
 │  train_chatglm3.sh
 │  train_glm4.sh
-│  train_mistral.sh：mistral训练脚本
+│  train_mistral.sh: Mistral training script
 │
 ├─configs
-│      ds_config_zero2.json：deepspeed配置文件
+│      ds_config_zero2.json: Deepspeed configuration file
 │
 └─utils
-        arguments.py：参数
-        collator.py：数据构建
-        dataset.py：数据集
-        trainer.py：训练
+        arguments.py: Arguments
+        collator.py: Data builder
+        dataset.py: Dataset
+        trainer.py: Trainer
 
 ```
 
-以下脚本命令均在**llm_codes**目录下执行
+All the following script commands are executed in the **llm_codes** directory.
 
-首先创建一个预测结果保存的文件夹
+First, create a folder to save the prediction results.
 ```
 mkdir -p ./result
 ```
 
 - chatglm3-6b
 
-训练chatglm3，你需要自行修改train_chatglm3.sh中以下变量后执行**bash train_chatglm3.sh** 
+To train chatglm3, you need to modify the following variables in train_chatglm3.sh and then execute **bash train_chatglm3.sh** 
 ```
-BASE_MODEL_PATH="your model path" #你的chatglm3_6b_32k模型所在目录地址
-PUB_PATH="path of pid_to_info_all.json" #pid_to_info_all.json文件路径
-TRAIN_PATH="path of train_author.json" #train_author.json文件路径
+BASE_MODEL_PATH="your model path" # Directory address of your chatglm3_6b_32k model
+PUB_PATH="path of pid_to_info_all.json" # Path to the pid_to_info_all.json file
+TRAIN_PATH="path of train_author.json" # Path to the train_author.json file
 ```
-推理chatglm3，你需要自行修改infer_chatglm3.sh中一下变量后执行**bash infer_chatglm3.sh**
+To infer chatglm3, you need to modify the following variables in infer_chatglm3.sh and then execute **bash infer_chatglm3.sh**
 ```
-lora_path="your lora model path" #你训练好的lora模型所在的目录地址
-path_to_model="your model path" #你的chatglm3_6b_32k模型所在目录地址
+lora_path="your lora model path" # Directory address of your trained lora model
+path_to_model="your model path" # Directory address of your chatglm3_6b_32k model
 
-path_to_pub_file="path of pid_to_info_all.json" #pid_to_info_all.json文件路径
-path_to_eval_author="path of ind_test_author_filter_public.json" #ind_test_author_filter_public.json文件路径
+path_to_pub_file="path of pid_to_info_all.json" # Path to the pid_to_info_all.json file
+path_to_eval_author="path of ind_test_author_filter_public.json" # Path to the ind_test_author_filter_public.json file
 ```
 
 - mistral-7b
 
-训练mistral，你需要自行修改train_mistral.sh中以下变量后执行**bash train_mistral.sh** 
+To train Mistral, you need to modify the following variables in train_mistral.sh and then execute **bash train_mistral.sh** 
 
 ```
-BASE_MODEL_PATH="your model path" #你的Mistral-7B-Instruct-v0.2模型所在目录地址
-PUB_PATH="path of pid_to_info_all.json" #pid_to_info_all.json文件路径
-TRAIN_PATH="path of train_author.json" #train_author.json文件路径
+BASE_MODEL_PATH="your model path" # Directory address of your Mistral-7B-Instruct-v0.2 model
+PUB_PATH="path of pid_to_info_all.json" # Path to the pid_to_info_all.json file
+TRAIN_PATH="path of train_author.json" # Path to the train_author.json file
 ```
-推理mistral，你需要自行修改infer_mistral.sh中一下变量后执行**bash infer_mistral.sh**
+To infer Mistral, you need to modify the following variables in infer_mistral.sh and then execute **bash infer_mistral.sh**
 ```
-lora_path="your lora model path" #你训练好的lora模型所在的目录地址
-path_to_model="your model path" #你的Mistral-7B-Instruct-v0.2模型所在目录地址
+lora_path="your lora model path" # Directory address of your trained lora model
+path_to_model="your model path" # Directory address of your Mistral-7B-Instruct-v0.2 model
 
-path_to_pub_file="path of pid_to_info_all.json" #pid_to_info_all.json文件路径
-path_to_eval_author="path of ind_test_author_filter_public.json" #ind_test_author_filter_public.json文件路径
+path_to_pub_file="path of pid_to_info_all.json" # Path to the pid_to_info_all.json file
+path_to_eval_author="path of ind_test_author_filter_public.json" # Path to the ind_test_author_filter_public.json file
 ```
 
 - glm4-9b
 
-训练glm4，你需要自行修改train_glm4.sh中以下变量后执行**bash train_glm4.sh** 
+To train glm4, you need to modify the following variables in train_glm4.sh and then execute **bash train_glm4.sh** 
 
 ```
-BASE_MODEL_PATH="your model path" #你的glm-4-9b-chat模型所在目录地址
-PUB_PATH="path of pid_to_info_all.json" #pid_to_info_all.json文件路径
-TRAIN_PATH="path of train_author.json" #train_author.json文件路径
+BASE_MODEL_PATH="your model path" # Directory address of your glm-4-9b-chat model
+PUB_PATH="path of pid_to_info_all.json" # Path to the pid_to_info_all.json file
+TRAIN_PATH="path of train_author.json" # Path to the train_author.json file
 ```
-推理glm4，你需要自行修改infer_glm4.sh中一下变量后执行**bash infer_glm4.sh**
+To infer glm4, you need to modify the following variables in infer_glm4.sh and then execute **bash infer_glm4.sh**
 ```
-lora_path="your lora model path" #你训练好的lora模型所在的目录地址
-path_to_model="your model path"  #你的glm-4-9b-chat模型所在目录地址
+lora_path="your lora model path" # Directory address of your trained lora model
+path_to_model="your model path"  # Directory address of your glm-4-9b-chat model
 
-path_to_pub_file="path of pid_to_info_all.json" #pid_to_info_all.json文件路径
-path_to_eval_author="path of ind_test_author_filter_public.json" #ind_test_author_filter_public.json文件路径
-```
-
-运行结束后检查你的result文件夹下是否有3个预测结果文件
-
-- 权重网盘地址
-  
-网盘中保存了本次比赛中训练好的lora权重地址，如果不训练直接推理的话，请下载好放置到base_model目录下
-```
-链接: https://pan.baidu.com/s/1dCkVsYkde-j1aLODQwyG4Q 
-提取码: 3923
+path_to_pub_file="path of pid_to_info_all.json" # Path to the pid_to_info_all.json file
+path_to_eval_author="path of ind_test_author_filter_public.json" # Path to the ind_test_author_filter_public.json file
 ```
 
-### 3.2 建模思路
+After running, check if there are three prediction result files in your result folder.
 
-利用大模型判断特定的文本（即“目标论文”）是否属于一个给定的作者文本集合（即“论文集合”）。
+- Weight file link:
 
-- `Context Papers`为属于当前作者的论文集合
-- `Target Paper`为待测论文
+The competition's trained lora weights are stored in the provided cloud storage. If you wish to infer directly without training, please download and place them in the base_model directory.
+```
+Link: https://pan.baidu.com/s/1dCkVsYkde-j1aLODQwyG4Q 
+Code: 3923
+```
+
+### 3.2 Modeling Approach
+
+Using large models to determine if a specific text (the "Target Paper") belongs to a given set of author texts (the "Paper Collection").
+
+- `Context Papers` are the collection of papers belonging to the current author.
+- `Target Paper` is the paper to be tested.
 
 ![instruction.png](resources/instruction.png)
 
-### 3.3 实验总结
+### 3.3 Experiment Summary
 
-通过Lora微调ChatGLM3、GLM4-Chat、Mistral-7B模型，然后得到对应结果文件进行融合
-## 4 模型融合
-多个预测结果的归一化和加权合并，请查看`merge.py`文件：
+Fine-tuning ChatGLM3, GLM4-Chat, and Mistral-7B models using Lora, then obtaining corresponding result files for fusion.
 
-首先定义归一化和合并的函数， 从JSON文件中读取预测结果，然后对读取的结果进行归一化处理，最后根据给定的权重对归一化后的结果进行合并，将合并后的结果保存到新的JSON文件中。
+## 4 Model Fusion
+Normalization and weighted merging of multiple prediction results, see the `merge.py` file:
 
-## 5 团队介绍
-- **Asir** B站大模型团队 算法工程师
-- **yanqiang** 中科院计算所GoMate团队 算法工程师
+First, define the normalization and merging functions, read the prediction results from JSON files, normalize the read results, and then merge the normalized results according to given weights, saving the merged results to a new JSON file.
+
+## 5 Team Introduction
+- **Asir** - Algorithm Engineer from the Bilibili Big Model Team
+- **yanqiang** - Algorithm Engineer from the CAS Institute of Computing Technology GoMate Team
