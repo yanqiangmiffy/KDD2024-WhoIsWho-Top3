@@ -19,7 +19,7 @@ transformers==4.40.1
 sentence-transformers==2.7.0
 scikit-learn==1.2.2
 gensim==4.3.0
-```m
+```
 
 
 ## 2 lgb codes
