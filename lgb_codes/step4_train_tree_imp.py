@@ -180,7 +180,7 @@ feature_names = [col for col in feature_names if 'jaccard' not in col]
 print(len(feature_names))
 feature_names = [col for col in feature_names if 'sorensen' not in col]
 
-feature_names = [col for col in feature_names if col in imp['feature'].values.tolist()[:500]]
+feature_names = [col for col in feature_names if col in imp['feature'].values.tolist()[:500]] + extra_cols
 feature_names = list(set(feature_names))
 # print(feature_names)
 print('Current num of features:', len(feature_names))
