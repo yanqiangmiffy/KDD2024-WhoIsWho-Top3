@@ -175,7 +175,7 @@ path_to_eval_author="path of ind_test_author_filter_public.json" #ind_test_autho
 运行结束后检查你的result文件夹下是否有3个预测结果文件
 
 - 权重网盘地址
-- 
+  
 网盘中保存了本次比赛中训练好的lora权重地址，如果不训练直接推理的话，请下载好放置到base_model目录下
 ```
 链接: https://pan.baidu.com/s/1dCkVsYkde-j1aLODQwyG4Q 
