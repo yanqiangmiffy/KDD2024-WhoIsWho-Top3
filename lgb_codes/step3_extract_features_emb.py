@@ -294,5 +294,5 @@ if __name__ == '__main__':
     x = pd.read_pickle('output/step1/step1_df.pkl')
     train = x[x['label'] != -1].reset_index(drop=True)
     test = x[x['label'] == -1].reset_index(drop=True)
-    # get_text_embedding(data=train.copy(), mode='train')
+    get_text_embedding(data=train.copy(), mode='train')
     get_text_embedding(data=test.copy(), mode='test')

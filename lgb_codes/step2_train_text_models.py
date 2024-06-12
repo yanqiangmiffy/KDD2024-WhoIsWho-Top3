@@ -128,10 +128,10 @@ def train_word2vec(
         print(f"词表大小: {vocab_size}")
 
 if __name__ == '__main__':
-    # make_corpus(text_col='text')
-    # make_corpus(text_col='venue')
-    # make_corpus(text_col='author_names_text')
-    # make_corpus(text_col='org_names_text')
+    make_corpus(text_col='text')
+    make_corpus(text_col='venue')
+    make_corpus(text_col='author_names_text')
+    make_corpus(text_col='org_names_text')
 
 
     for text_col in ['text','venue','author_names_text','org_names_text']:

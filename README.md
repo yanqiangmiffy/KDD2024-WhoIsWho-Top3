@@ -58,6 +58,13 @@ python step4_train_tree.py lgb1
 python step4_train_tree_imp.py:imp+oag特征 lgb2
 ```
 
+训练权重地址
+```text
+链接：https://pan.baidu.com/s/15t9Be4LS7NK5bnRETnZjoQ?pwd=svis 
+提取码：svis 
+--来自百度网盘超级会员V5的分享
+```
+
 ### 2.2 建模思路
 构建作者画像以及与paper的差异性特征，主要通过聚合文本来表示author，然后计算author的文本表示与每个paper的文本表示的距离特征，文本字段主要有论文的title/abstract/keywords
 
@@ -167,6 +174,13 @@ path_to_eval_author="path of ind_test_author_filter_public.json" #ind_test_autho
 
 运行结束后检查你的result文件夹下是否有3个预测结果文件
 
+- 权重网盘地址
+- 
+网盘中保存了本次比赛中训练好的lora权重地址，如果不训练直接推理的话，请下载好放置到base_model目录下
+```
+链接: https://pan.baidu.com/s/1dCkVsYkde-j1aLODQwyG4Q 
+提取码: 3923
+```
 
 ### 3.2 建模思路
 
