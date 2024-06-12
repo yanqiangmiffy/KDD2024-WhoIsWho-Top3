@@ -15,11 +15,8 @@ pip install peft==0.10.0 -i https://pypi.bilibili.co/repository/pypi-public/simp
 pip install triton==2.3.0 -i https://pypi.bilibili.co/repository/pypi-public/simple/
 pip install trl==0.8.6 -i https://pypi.bilibili.co/repository/pypi-public/simple/
 pip install tiktoken==0.6.0 -i https://pypi.bilibili.co/repository/pypi-public/simple/
-python setup.py develop
 
 set -ex
-
-#请确保你的模型在base_model文件夹目录下，参考BASE_MODEL_PATH变量
 
 LR=3e-5
 NUM_GPUS=8
