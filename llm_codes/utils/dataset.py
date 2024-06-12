@@ -45,18 +45,17 @@ class INDDataSetForMistral(Dataset):
                 })
                 labels.append(1)
                 num_1 += 1
-        # assert num_0 + num_1 == len(train_keys)
-        # sampling_strategy = {
-        #     0: num_0,  # 少数类保留全部
-        #     1: 4 * num_0  # 多数类保留3倍于少数类
-        # }
-        # rus = RandomUnderSampler(random_state=0, sampling_strategy=sampling_strategy)
-        # keys_ids = list(range(0,len(train_keys)))
-        # keys_ids = [ [x, 0] for x in keys_ids ]
-        # sampled_keys, _ = rus.fit_resample(keys_ids, labels)
-        # self.train_keys = [train_keys[i[0]] for i in sampled_keys]
+        assert num_0 + num_1 == len(train_keys)
+        sampling_strategy = {
+            0: num_0,  # 少数类保留全部
+            1: 4 * num_0  # 多数类保留4倍于少数类
+        }
+        rus = RandomUnderSampler(random_state=0, sampling_strategy=sampling_strategy)
+        keys_ids = list(range(0,len(train_keys)))
+        keys_ids = [ [x, 0] for x in keys_ids ]
+        sampled_keys, _ = rus.fit_resample(keys_ids, labels)
+        self.train_keys = [train_keys[i[0]] for i in sampled_keys]
 
-        self.train_keys = train_keys
         random.shuffle(self.train_keys)
         self.instruct = "Identify the abnormal text from the text collection according to the following rules:\n Here is a collection of paper titles: \n ### {} \n ### Does the paper title ### {} ### belong to the main part of these papers, give me an answer between 'yes' or 'no'."
 
@@ -152,19 +151,12 @@ class INDDataSetForGLM(Dataset):
                 labels.append(1)
                 num_1 += 1
 
-        # assert num_0 + num_1 == len(train_keys)
-        # sampling_strategy = {
-        #     0: num_0,  # 少数类保留全部
-        #     1: 4 * num_0  # 多数类保留3倍于少数类
-        # }
-        # rus = RandomUnderSampler(random_state=0, sampling_strategy=sampling_strategy)
         rus = RandomUnderSampler(random_state=0)
         keys_ids = list(range(0,len(train_keys)))
         keys_ids = [ [x, 0] for x in keys_ids ]
         sampled_keys, _ = rus.fit_resample(keys_ids, labels)
         self.train_keys = [train_keys[i[0]] for i in sampled_keys]
 
-        # self.train_keys = train_keys
         random.shuffle(self.train_keys)
         self.instruct = "Identify the abnormal text from the text collection according to the following rules:\n Here is a collection of paper titles: \n ### {} \n ### Does the paper title ### {} ### belong to the main part of these papers, give me an answer between 'yes' or 'no'."
 

@@ -19,7 +19,7 @@ transformers==4.40.1
 sentence-transformers==2.7.0
 scikit-learn==1.2.2
 gensim==4.3.0
-```
+```m
 
 
 ## 2 lgb codes
@@ -93,5 +93,5 @@ gensim==4.3.0
 通过Lora微调ChatGLM3、GLM4-Chat、Mistral-7B模型，然后得到对应结果文件进行融合
 
 ## 4 团队介绍
-- **asir** B站大模型团队 算法工程师
+- **Asir** B站大模型团队 算法工程师
 - **yanqiang** 中科院计算所GoMate团队 算法工程师
