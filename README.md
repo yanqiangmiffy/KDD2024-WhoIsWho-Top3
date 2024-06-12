@@ -105,7 +105,7 @@ python step4_train_tree_imp.py:imp+oag特征 lgb2
 
 ```
 
-以下脚本命令均在当前目录下执行
+以下脚本命令均在**llm_codes**目录下执行
 
 首先创建一个预测结果保存的文件夹
 ```
