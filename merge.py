@@ -30,19 +30,19 @@ def merge_results(weight1, data1, weight2, data2):
 
 
 # Load the data from the JSON files
-with open('chtglm3的预测结果路径', 'r') as f:  #777
+with open('chtglm3的预测结果路径', 'r') as f:
     result_chatglm3 = json.load(f)
 
-with open('glm4的预测结果路径', 'r') as f:  #778
+with open('glm4的预测结果路径', 'r') as f:
     result_glm4 = json.load(f)
 
-with open('mistral的预测结果路径', 'r') as f:  #770
+with open('mistral的预测结果路径', 'r') as f:
     result_mistral = json.load(f)
 
-with open('lgb1的预测结果路径', 'r') as f: #794
+with open('lgb1的预测结果路径', 'r') as f:
     result_lgb = json.load(f)
 
-with open('lgb2的预测结果路径', 'r') as f: #693
+with open('lgb2的预测结果路径', 'r') as f:
     result_lgb4 = json.load(f)
 
 
