@@ -19,21 +19,29 @@
 ## 3. 运行说明
 以下脚本命令均在当前目录下执行
 
-首先创建一个预测结果保存的文件夹
+首先创建一个模型文件夹和预测结果保存的文件夹
 ```
+mkdir -p ./base_model
 mkdir -p ./result
 ```
+#### 网盘地址
+网盘中保存了本次比赛中训练好的lora权重地址，如果不训练直接推理的话，请下载好放置到base_model目录下
+```
+链接: https://pan.baidu.com/s/1dCkVsYkde-j1aLODQwyG4Q 
+提取码: 3923
+```
+
 #### chatglm3-6b
 训练chatglm3，你需要自行修改train_chatglm3.sh中以下变量后执行**bash train_chatglm3.sh** 
 ```
-BASE_MODEL_PATH="your model path" #你的chatglm3_6b_32k模型所在目录地址
+BASE_MODEL_PATH="your model path" #chatglm3_6b_32k模型所在目录地址
 PUB_PATH="path of pid_to_info_all.json" #pid_to_info_all.json文件路径
 TRAIN_PATH="path of train_author.json" #train_author.json文件路径
 ```
 推理chatglm3，你需要自行修改infer_chatglm3.sh中一下变量后执行**bash infer_chatglm3.sh**
 ```
-lora_path="your lora model path" #你训练好的lora模型所在的目录地址
-path_to_model="your model path" #你的chatglm3_6b_32k模型所在目录地址
+lora_path="your lora model path" #训练好的lora模型所在的目录地址 或者 从网盘里下载训练好的lora权重地址
+path_to_model="your model path" #chatglm3_6b_32k模型所在目录地址
 
 path_to_pub_file="path of pid_to_info_all.json" #pid_to_info_all.json文件路径
 path_to_eval_author="path of ind_test_author_filter_public.json" #ind_test_author_filter_public.json文件路径
@@ -42,14 +50,14 @@ path_to_eval_author="path of ind_test_author_filter_public.json" #ind_test_autho
 #### mistral-7b
 训练mistral，你需要自行修改train_mistral.sh中以下变量后执行**bash train_mistral.sh** 
 ```
-BASE_MODEL_PATH="your model path" #你的Mistral-7B-Instruct-v0.2模型所在目录地址
+BASE_MODEL_PATH="your model path" #Mistral-7B-Instruct-v0.2模型所在目录地址
 PUB_PATH="path of pid_to_info_all.json" #pid_to_info_all.json文件路径
 TRAIN_PATH="path of train_author.json" #train_author.json文件路径
 ```
 推理mistral，你需要自行修改infer_mistral.sh中一下变量后执行**bash infer_mistral.sh**
 ```
-lora_path="your lora model path" #你训练好的lora模型所在的目录地址
-path_to_model="your model path" #你的Mistral-7B-Instruct-v0.2模型所在目录地址
+lora_path="your lora model path" #训练好的lora模型所在的目录地址 或者 从网盘里下载训练好的lora权重地址
+path_to_model="your model path" #Mistral-7B-Instruct-v0.2模型所在目录地址
 
 path_to_pub_file="path of pid_to_info_all.json" #pid_to_info_all.json文件路径
 path_to_eval_author="path of ind_test_author_filter_public.json" #ind_test_author_filter_public.json文件路径
@@ -58,14 +66,14 @@ path_to_eval_author="path of ind_test_author_filter_public.json" #ind_test_autho
 #### glm4-9b
 训练glm4，你需要自行修改train_glm4.sh中以下变量后执行**bash train_glm4.sh** 
 ```
-BASE_MODEL_PATH="your model path" #你的glm-4-9b-chat模型所在目录地址
+BASE_MODEL_PATH="your model path" #glm-4-9b-chat模型所在目录地址
 PUB_PATH="path of pid_to_info_all.json" #pid_to_info_all.json文件路径
 TRAIN_PATH="path of train_author.json" #train_author.json文件路径
 ```
 推理glm4，你需要自行修改infer_glm4.sh中一下变量后执行**bash infer_glm4.sh**
 ```
-lora_path="your lora model path" #你训练好的lora模型所在的目录地址
-path_to_model="your model path"  #你的glm-4-9b-chat模型所在目录地址
+lora_path="your lora model path" #训练好的lora模型所在的目录地址 或者 从网盘里下载训练好的lora权重地址
+path_to_model="your model path"  #glm-4-9b-chat模型所在目录地址
 
 path_to_pub_file="path of pid_to_info_all.json" #pid_to_info_all.json文件路径
 path_to_eval_author="path of ind_test_author_filter_public.json" #ind_test_author_filter_public.json文件路径
