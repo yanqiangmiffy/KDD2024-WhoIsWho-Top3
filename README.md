@@ -217,5 +217,5 @@ Normalization and weighted merging of multiple prediction results, see the `merg
 First, define the normalization and merging functions, read the prediction results from JSON files, normalize the read results, and then merge the normalized results according to given weights, saving the merged results to a new JSON file.
 
 ## 5 Team Introduction
-- **Asir** - Algorithm Engineer from the Bilibili Big Model Team
+- **Asir** - Algorithm Engineer from the Bilibili Large Language Model Team
 - **yanqiang** - Algorithm Engineer from the CAS Institute of Computing Technology GoMate Team
