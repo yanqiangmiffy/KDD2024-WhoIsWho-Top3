@@ -86,19 +86,19 @@ Building author profiles and features to differentiate them from papers, primari
 ### 3.1 File Description
 ```text
 │  .gitkeep
-│  finetune_chatglm3.py
-│  finetune_glm4.py
-│  finetune_mistral.py: Mistral fine-tuning code
-│  inference_for_mistral.py: Mistral inference code
-│  inference_glm.py
-│  inference_glm4.py
-│  infer_chatglm3.sh
-│  infer_glm4.sh
+│  finetune_chatglm3.py: chatglm3-6b fine-tuning code
+│  finetune_glm4.py: glm4-9b fine-tuning code
+│  finetune_mistral.py: Mistral-7b fine-tuning code
+│  inference_for_mistral.py: Mistral-7b inference code
+│  inference_glm.py: chatglm3-6b inference code
+│  inference_glm4.py: glm4-9b inference code
+│  infer_chatglm3.sh: chatglm3-6b inference script
+│  infer_glm4.sh: glm4-9b inference script
 │  infer_mistral.sh: Mistral inference script
 │  README.md
-│  train_chatglm3.sh
-│  train_glm4.sh
-│  train_mistral.sh: Mistral training script
+│  train_chatglm3.sh: chatglm3-6b training script
+│  train_glm4.sh: glm4-9b training script
+│  train_mistral.sh: Mistral-7b training script
 │
 ├─configs
 │      ds_config_zero2.json: Deepspeed configuration file
@@ -111,11 +111,36 @@ Building author profiles and features to differentiate them from papers, primari
 
 ```
 
+### 3.2 Environment
+- GPU：8xA800 80g
+- python：python3.10.12
+- torch：2.1.0a0+4136153
+- torchvision：0.16.0a0
+
+The versions of other installation packages will be automatically installed when the training file is executed. Please make sure that your environment supports deepspeed training.
+
+### 3.3 Open Source Model
+We will train the following three models.
+- chatglm3_6b_32k: https://huggingface.co/THUDM/chatglm3-6b-32k
+- Mistral-7B-Instruct-v0.2: https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2
+- glm-4-9b-chat: https://huggingface.co/THUDM/glm-4-9b-chat
+
+### 3.4 Run
+
 All the following script commands are executed in the **llm_codes** directory.
 
 First, create a folder to save the prediction results.
 ```
+mkdir -p ./base_model
 mkdir -p ./result
+```
+
+- Lora weight file link:
+
+The competition's trained lora weights are stored in the provided cloud storage. If you wish to infer directly without training, please download and place them in the **base_model** directory.
+```
+Link: https://pan.baidu.com/s/1dCkVsYkde-j1aLODQwyG4Q 
+Code: 3923
 ```
 
 - chatglm3-6b
@@ -173,15 +198,7 @@ path_to_eval_author="path of ind_test_author_filter_public.json" # Path to the i
 
 After running, check if there are three prediction result files in your result folder.
 
-- Weight file link:
-
-The competition's trained lora weights are stored in the provided cloud storage. If you wish to infer directly without training, please download and place them in the base_model directory.
-```
-Link: https://pan.baidu.com/s/1dCkVsYkde-j1aLODQwyG4Q 
-Code: 3923
-```
-
-### 3.2 Modeling Approach
+### 3.5 Modeling Approach
 
 Using large models to determine if a specific text (the "Target Paper") belongs to a given set of author texts (the "Paper Collection").
 
@@ -190,7 +207,7 @@ Using large models to determine if a specific text (the "Target Paper") belongs 
 
 ![instruction.png](resources/instruction.png)
 
-### 3.3 Experiment Summary
+### 3.6 Experiment Summary
 
 Fine-tuning ChatGLM3, GLM4-Chat, and Mistral-7B models using Lora, then obtaining corresponding result files for fusion.
 
