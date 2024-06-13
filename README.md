@@ -153,7 +153,7 @@ TRAIN_PATH="path of train_author.json" # Path to the train_author.json file
 ```
 To infer chatglm3, you need to modify the following variables in infer_chatglm3.sh and then execute **bash infer_chatglm3.sh**
 ```
-lora_path="your lora model path" # Directory address of your trained lora model
+lora_path="base_model/chatglm3-6b-32k-chat-lora" # Directory address of your trained lora model
 path_to_model="your model path" # Directory address of your chatglm3_6b_32k model
 
 path_to_pub_file="path of pid_to_info_all.json" # Path to the pid_to_info_all.json file
@@ -171,7 +171,7 @@ TRAIN_PATH="path of train_author.json" # Path to the train_author.json file
 ```
 To infer Mistral, you need to modify the following variables in infer_mistral.sh and then execute **bash infer_mistral.sh**
 ```
-lora_path="your lora model path" # Directory address of your trained lora model
+lora_path="base_model/mistral-7b-instruct-lora" # Directory address of your trained lora model
 path_to_model="your model path" # Directory address of your Mistral-7B-Instruct-v0.2 model
 
 path_to_pub_file="path of pid_to_info_all.json" # Path to the pid_to_info_all.json file
@@ -189,7 +189,7 @@ TRAIN_PATH="path of train_author.json" # Path to the train_author.json file
 ```
 To infer glm4, you need to modify the following variables in infer_glm4.sh and then execute **bash infer_glm4.sh**
 ```
-lora_path="your lora model path" # Directory address of your trained lora model
+lora_path="base_model/glm4-9b-chat-lora" # Directory address of your trained lora model
 path_to_model="your model path"  # Directory address of your glm-4-9b-chat model
 
 path_to_pub_file="path of pid_to_info_all.json" # Path to the pid_to_info_all.json file
