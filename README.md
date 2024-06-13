@@ -44,7 +44,7 @@ gensim==4.3.0
 └─result
 ```
 Run the following steps:
-1. **train stage**
+1. **download dataset**
 
 put competitions [dataset](https://www.biendata.xyz/competition/ind_kdd_2024/data/) in **data** dir
 
@@ -68,7 +68,6 @@ download **output** from the training weights link:
 
 链接：https://pan.baidu.com/s/15dt8Ns6VtOhMKRj1sepFLQ?pwd=uznu 
 提取码：uznu 
---来自百度网盘超级会员V5的分享
 
 put **output** dir into **lgb_codes**,then:
 ```shell
