@@ -1,0 +1,9 @@
+python step0_initialize.py
+python step1_load_data.py
+python step2_train_text_models.py
+python step3_extract_features_emb.py
+python step3_extract_features_stats.py
+python step3_extract_oag_features.py
+python step3_merge_features.py
+python step4_train_tree.py
+python step4_train_tree_imp.py

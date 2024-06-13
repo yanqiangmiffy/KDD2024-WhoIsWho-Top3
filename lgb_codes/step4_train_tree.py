@@ -10,7 +10,7 @@
 # %%
 import gc
 import json
-
+import joblib
 import numpy as np
 import pandas as pd
 from lightgbm import LGBMClassifier, log_evaluation, early_stopping
@@ -145,6 +145,8 @@ def get_oof(feats, target, test, kfold, clf, type='lgb'):
 
         feature_importance_df = pd.concat([feature_importance_df, fold_importance_df], axis=0)
         print(fold_importance_df.head(20))
+        joblib.dump(clf,f"output/lgb0_fold{i}.joblib")
+
     fold_importance_df = feature_importance_df.groupby(['feature'])['importance'].mean().sort_values(
         ascending=False).reset_index()
     evalution_result = roc_auc_score(target, oof_preds, average='weighted')

@@ -24,7 +24,7 @@ def seed_everything(seed):
 
 
 seed_everything(42)
-base_dir = 'H:/2024-Biendata-WhoIsWho/data/IND-WhoIsWho/'
+base_dir = '../data/IND-WhoIsWho/'
 with open(base_dir + "train_author.json", 'r', encoding="utf-8") as f:
     train_author = json.load(f)
 with open(base_dir + "pid_to_info_all.json", encoding="utf-8") as f:
@@ -263,13 +263,13 @@ def process_author():
     train_author = fill_concat(train_author.copy())
     valid_author = fill_concat(valid_author.copy())
 
-    train_author.to_pickle('output/step1_train_author.pkl')
-    valid_author.to_pickle('output/step1_valid_author.pkl')
+    train_author.to_pickle('output/step1/step1_train_author.pkl')
+    valid_author.to_pickle('output/step1/step1_valid_author.pkl')
     print(train_author.columns)
 
     df = pd.concat([train_author, valid_author], axis=0).reset_index(drop=True)
-    df.to_pickle('output/step1_df.pkl')
-    df.head(2000).to_csv('output/step1_df.csv', index=False)
+    df.to_pickle('output/step1/step1_df.pkl')
+    df.head(2000).to_csv('output/step1/step1_df.csv', index=False)
     print(df.shape)
 
 

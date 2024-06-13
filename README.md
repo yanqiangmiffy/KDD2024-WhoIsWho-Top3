@@ -44,6 +44,11 @@ gensim==4.3.0
 └─result
 ```
 Run the following steps:
+1. **train stage**
+
+put competitions [dataset](https://www.biendata.xyz/competition/ind_kdd_2024/data/) in **data** dir
+
+2. **train stage**
 
 ```shell
 python step0_initialize.py
@@ -53,15 +58,21 @@ python step3_extract_features_emb.py
 python step3_extract_features_stats.py
 python step3_extract_oag_features.py
 python step3_merge_features.py
-python step4_train_tree.py lgb1
-python step4_train_tree_imp.py: imp+oag features lgb2
+python step4_train_tree.py
+python step4_train_tree_imp.py
 ```
 
-Training weights link:
-```text
-Link: https://pan.baidu.com/s/15t9Be4LS7NK5bnRETnZjoQ?pwd=svis 
-Code: svis 
---Shared by a Baidu Netdisk Super VIP V5
+3. **inference stage**
+
+download **output** from the training weights link:
+
+链接：https://pan.baidu.com/s/15dt8Ns6VtOhMKRj1sepFLQ?pwd=uznu 
+提取码：uznu 
+--来自百度网盘超级会员V5的分享
+
+put **output** dir into **lgb_codes**,then:
+```shell
+python step5_inference_lgb.py
 ```
 
 ### 2.2 Modeling Approach
@@ -80,6 +91,7 @@ Building author profiles and features to differentiate them from papers, primari
 - StratifiedKFold, StratifiedGroupKFold, and GroupKFold partition methods had similar effects, with `StratifiedGroupKFold` being slightly higher.
 - The fusion of lgb, xgb, and cat did not improve results; lgb was the best performing model.
 - Textual cross-features between the author's historical published papers and the test paper were particularly important.
+
 
 
 ## 3 LLM Codes
