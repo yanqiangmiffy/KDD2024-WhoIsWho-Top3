@@ -94,7 +94,7 @@ Building author profiles and features to differentiate them from papers, primari
 │  inference_glm4.py: glm4-9b inference code
 │  infer_chatglm3.sh: chatglm3-6b inference script
 │  infer_glm4.sh: glm4-9b inference script
-│  infer_mistral.sh: Mistral inference script
+│  infer_mistral.sh: Mistral-7b inference script
 │  README.md
 │  train_chatglm3.sh: chatglm3-6b training script
 │  train_glm4.sh: glm4-9b training script
