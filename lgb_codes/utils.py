@@ -11,6 +11,15 @@ import warnings
 
 import numpy as np
 import pandas as pd
+import pandas as pd
+import numpy as np
+import gc
+from lightgbm import LGBMClassifier, log_evaluation, early_stopping
+from sklearn.metrics import roc_auc_score
+from sklearn.model_selection import StratifiedKFold
+from gensim.models import Word2Vec
+from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from sklearn.decomposition import TruncatedSVD
 warnings.filterwarnings('ignore', category=RuntimeWarning)
 
 

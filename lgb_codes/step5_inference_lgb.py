@@ -49,3 +49,19 @@ for id, names in submission.items():
         cnt += 1
 with open(f'result/lgb1.json', 'w', encoding='utf-8') as f:
     json.dump(submission, f, ensure_ascii=False, indent=4)
+
+
+
+test2 = pd.read_pickle('output/test2.pkl')
+sub_preds2 = np.zeros(test2.shape[0])
+for fold in tqdm(range(num_folds)):
+    clf = joblib.load(f'output/lgb2_fold{fold}.joblib')
+    sub_preds2 += clf.predict_proba(test2)[:, 1]
+lgb_preds2 = sub_preds2 / num_folds
+cnt = 0
+for id, names in submission.items():
+    for name in names:
+        submission[id][name] = lgb_preds2[cnt]
+        cnt += 1
+with open(f'result/lgb2.json', 'w', encoding='utf-8') as f:
+    json.dump(submission, f, ensure_ascii=False, indent=4)

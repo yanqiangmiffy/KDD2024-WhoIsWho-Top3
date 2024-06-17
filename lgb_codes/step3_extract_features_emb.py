@@ -139,6 +139,7 @@ def generate_features_for_paper(
     gc.collect()
 
 
+
 def get_text_embedding(data=None, mode='train'):
     data['author_year']=data['author_id'].astype(str)+'_'+data['year'].astype(str)
     data['author_venue']=data['author_id'].astype(str)+'_'+data['venue'].astype(str)
@@ -290,9 +291,117 @@ def get_text_embedding(data=None, mode='train'):
                     group_by_col=group_col
                 )
 
+
+
+
+def apply_embedding(df, group_by_col, text_col, emb_size, method):
+    tmp = df.groupby(group_by_col, as_index=False).agg({text_col: list})
+    tmp[f'{group_by_col}_{text_col}_list'] = tmp[text_col].apply(lambda x: ' '.join([str(i) for i in x]))
+    sentences = tmp[f'{group_by_col}_{text_col}_list'].values.tolist()
+
+    if method == 'w2v':
+        sentences = [s.split() for s in sentences]
+        model = Word2Vec(sentences, vector_size=emb_size, window=5, min_count=1, sg=0, hs=0, epochs=32, workers=1,
+                         seed=2023)
+        emb_matrix = []
+        for seq in sentences:
+            vec = [model.wv[w] for w in seq if w in model.wv.key_to_index]
+            if vec:
+                emb_matrix.append(np.mean(vec, axis=0))
+            else:
+                emb_matrix.append([0] * emb_size)
+        emb_matrix = np.array(emb_matrix)
+
+    elif method == 'tfidf':
+        vectorizer = TfidfVectorizer(max_features=emb_size)
+        emb_matrix = vectorizer.fit_transform(sentences).toarray()
+
+    elif method == 'count2vec':
+        vectorizer = CountVectorizer(max_features=emb_size)
+        emb_matrix = vectorizer.fit_transform(sentences).toarray()
+
+    elif method == 'svd':
+        vectorizer = CountVectorizer(max_features=emb_size)
+        X = vectorizer.fit_transform(sentences)
+        n_components = min(emb_size, X.shape[1] - 1)
+        svd = TruncatedSVD(n_components=n_components)
+        emb_matrix = svd.fit_transform(X)
+
+    for i in range(emb_matrix.shape[1]):
+        tmp[f'{group_by_col}_{text_col}_{method}_{i}'] = emb_matrix[:, i]
+
+    return tmp.drop(columns=[text_col, f'{group_by_col}_{text_col}_list'])
+
+
+def apply_embeddings(df, columns, text_field, emb_sizes, methods):
+    for feat in columns:
+        emb_size = emb_sizes[feat]
+        for method in methods:
+            print()
+            df = df.merge(apply_embedding(df, feat, text_field, emb_size, method), on=feat, how='left')
+            gc.collect()
+    return df
+
+def extract_first_two_authors_alternative(authors_list):
+    try:
+        first_author = authors_list[0]['name'].lower() if len(authors_list) > 0 else ""
+        second_author = authors_list[1]['name'].lower() if len(authors_list) > 1 else ""
+        third_author = authors_list[2]['name'].lower() if len(authors_list) > 2 else ""
+
+        first_org = authors_list[0]['org'].lower() if len(authors_list) > 0 else ""
+        second_org = authors_list[1]['org'].lower() if len(authors_list) > 1 else ""
+        third_org = authors_list[2]['org'].lower() if len(authors_list) > 2 else ""
+    except Exception as e:
+        print(f"Error processing: {authors_list} with error {e}")
+        first_author, second_author, third_author = "", "", ""
+        first_org, second_org, third_org = "", "", ""
+
+    return first_author, second_author, third_author, first_org, second_org, third_org
+
+def process_paper(data):
+    data['keywords'] = data['keywords'].fillna('[]').apply(lambda x: eval(x))
+    data['text'] = data['title'] + data['abstract'] + data['keywords'].apply(lambda x: ', '.join(x)) + \
+                       data[
+                           'venue']
+    data['authors'] = data['authors'].apply(lambda x: eval(x))
+    data[['first_author', 'second_author', 'third_author', 'first_org', 'second_org', 'third_org']] = data[
+        'authors'].apply(
+        lambda x: extract_first_two_authors_alternative(x)).apply(pd.Series)
+    return data
+def get_paper_embedding(data):
+
+
+    columns_text = {
+        'first_author': 32,
+        'first_org': 32,
+        'authors': 32,
+        'second_author': 16,
+        'second_org': 16,
+        'third_author': 16,
+        'third_org': 16
+    }
+
+    columns_venue = {
+        'first_author': 16,
+        'first_author_org': 16,
+        'authors': 16,
+        'second_author': 8,
+        'second_author_org': 8,
+        'third_author': 8,
+        'third_author_org': 8
+    }
+
+    methods = ['w2v', 'tfidf', 'count2vec', 'svd']
+    data = apply_embeddings(data, columns_text.keys(), 'full_text', columns_text, methods)
+    data = apply_embeddings(data, columns_venue.keys(), 'venue', columns_venue, methods)
+    data.to_pickle('output/step3/step3_paper_embeddings.pkl')
+
 if __name__ == '__main__':
-    x = pd.read_pickle('output/step1/step1_df.pkl')
-    train = x[x['label'] != -1].reset_index(drop=True)
-    test = x[x['label'] == -1].reset_index(drop=True)
-    get_text_embedding(data=train.copy(), mode='train')
-    get_text_embedding(data=test.copy(), mode='test')
+    # x = pd.read_pickle('output/step1/step1_df.pkl')
+    # train = x[x['label'] != -1].reset_index(drop=True)
+    # test = x[x['label'] == -1].reset_index(drop=True)
+    # get_text_embedding(data=train.copy(), mode='train')
+    # get_text_embedding(data=test.copy(), mode='test')
+    paper_df=pd.read_csv('data/papers_info.csv')
+    paper_df=process_paper(paper_df)
+    get_paper_embedding(paper_df)
