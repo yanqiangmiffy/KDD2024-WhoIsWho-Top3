@@ -128,6 +128,18 @@ Building author profiles and features to differentiate them from papers, primari
 - torch：2.1.0a0+4136153
 - torchvision：0.16.0a0
 
+```text
+pip install imblearn
+pip install deepspeed==0.9.3 
+pip install accelerate==0.27.2 
+pip install transformers==4.39.2 
+pip install bitsandbytes==0.41.3 
+pip install py-common 
+pip install peft==0.10.0 
+pip install triton==2.3.0 
+pip install trl==0.8.6 
+pip install tiktoken==0.6.0
+```
 The versions of other installation packages will be automatically installed when the training file is executed. Please make sure that your environment supports deepspeed training.
 
 ### 3.3 Open Source Model
