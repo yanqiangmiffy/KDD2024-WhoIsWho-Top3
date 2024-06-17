@@ -1,6 +1,17 @@
 
 set -ex
 
+pip install imblearn
+pip install deepspeed==0.9.3 
+pip install accelerate==0.27.2 
+pip install transformers==4.39.2 
+pip install bitsandbytes==0.41.3 
+pip install py-common 
+pip install peft==0.10.0 
+pip install triton==2.3.0 
+pip install trl==0.8.6 
+pip install tiktoken==0.6.0 
+
 lora_path="your lora model path" #你训练好的lora模型所在的目录地址
 path_to_model="your model path" #你的Mistral-7B-Instruct-v0.2模型所在目录地址
 

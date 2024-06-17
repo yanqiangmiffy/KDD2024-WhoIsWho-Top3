@@ -9,11 +9,9 @@ import json
 import random
 from accelerate import Accelerator
 from tqdm import tqdm
-from utils.metric import compute_metric
 import argparse
 import torch.distributed as dist
 from typing import Any, Callable, Dict, List, NewType, Optional, Tuple, Union
-from trl import DPOTrainer, get_kbit_device_map
 
 class IND4EVAL(Dataset):
     def __init__(self, dataset, tokenizer, max_source_length):
