@@ -45,12 +45,16 @@ with open('lgb1的预测结果路径', 'r') as f:
 with open('lgb2的预测结果路径', 'r') as f:
     result_lgb4 = json.load(f)
 
+with open('lgb3的预测结果路径.json', 'r') as f: 
+    result_lgb3 = json.load(f)
+
 
 # Normalize the scores
 normalized_chatglm3= normalize_scores(result_chatglm3)
 normalized_glm4 = normalize_scores(result_glm4)
 normalized_mistral = normalize_scores(result_mistral)
 normalized_lgb = normalize_scores(result_lgb)
+normalized_lgb3 = normalize_scores(result_lgb3)
 normalized_lgb4 = normalize_scores(result_lgb4)
 
 # Merge the results with specified weights
@@ -63,6 +67,7 @@ for author_id in result_chatglm3:
     papers2 = normalized_glm4.get(author_id, {})
     papers4 = normalized_mistral.get(author_id, {})
     papers5 = normalized_lgb.get(author_id, {})
+    papers8 = normalized_lgb3.get(author_id, {})
     papers9 = normalized_lgb4.get(author_id, {})
     all_papers = set(papers1.keys()).union(set(papers2.keys()))
     for paper_id in all_papers:
@@ -70,8 +75,9 @@ for author_id in result_chatglm3:
         score2 = papers2.get(paper_id, 0) #glm4
         score4 = papers4.get(paper_id, 0) #mistral
         score5 = papers5.get(paper_id, 0) #lgb1
+        score8 = papers8.get(paper_id, 0) #lgb3
         score9 = papers9.get(paper_id, 0) #lgb2
-        score_ = score5 * 0.4 + score4 * 0.2 + score2 * 0.2 + score1 * 0.2
+        score_ = score5 * 0.2 + + score8 * 0.2 + score4 * 0.2 + score2 * 0.2 + score1 * 0.2
         merged_results[author_id][paper_id] = score_ * 0.8 + score9 * 0.2
 # Save the merged results to a new JSON file
 with open('final_result.json', 'w') as f_out:
