@@ -5,16 +5,16 @@ export CUBLAS_WORKSPACE_CONFIG=:4096:8
 
 set -o pipefail
 
-pip install imblearn -i https://pypi.bilibili.co/repository/pypi-public/simple/
-pip install deepspeed==0.9.3 -i https://pypi.bilibili.co/repository/pypi-public/simple/
-pip install accelerate==0.27.2 -i https://pypi.bilibili.co/repository/pypi-public/simple/
-pip install transformers==4.39.2 -i https://pypi.bilibili.co/repository/pypi-public/simple/
-pip install bitsandbytes==0.41.3 -i https://pypi.bilibili.co/repository/pypi-public/simple/
-pip install py-common -i https://pypi.bilibili.co/repository/pypi-public/simple/
-pip install peft==0.10.0 -i https://pypi.bilibili.co/repository/pypi-public/simple/
-pip install triton==2.3.0 -i https://pypi.bilibili.co/repository/pypi-public/simple/
-pip install trl==0.8.6 -i https://pypi.bilibili.co/repository/pypi-public/simple/
-pip install tiktoken==0.6.0 -i https://pypi.bilibili.co/repository/pypi-public/simple/
+pip install imblearn
+pip install deepspeed==0.9.3
+pip install accelerate==0.27.2
+pip install transformers==4.39.2
+pip install bitsandbytes==0.41.3
+pip install py-common
+pip install peft==0.10.0
+pip install triton==2.3.0
+pip install trl==0.8.6
+pip install tiktoken==0.6.0
 
 set -ex
 
